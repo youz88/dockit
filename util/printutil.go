@@ -24,6 +24,10 @@ func PrintInfo(s string) {
 	printWithColor(Green, s)
 }
 
+func PrintInfoFormat(format string, a ...any) {
+	PrintInfo(fmt.Sprintf(format, a...))
+}
+
 func PrintError(s string) {
 	printWithColor(Red, s)
 }
