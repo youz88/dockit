@@ -2,6 +2,14 @@ package docker
 
 import "dockit/common"
 
-func Pull(name string) {
-	common.ExecCmd("docker", "pull", name)
+func Pull(imageName string) {
+	common.ExecCmd("docker", "pull", imageName)
+}
+
+func Run(imageId string) {
+	common.ExecCmd("docker", "run", "-it", "-d", imageId)
+}
+
+func GetImageId(imageName string) string {
+	return common.ExecCmdWithOutput("docker", "image", "ls", imageName, "-q")
 }
