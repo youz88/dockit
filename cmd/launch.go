@@ -3,7 +3,6 @@ package cmd
 import (
 	"dockit/docker"
 	"fmt"
-	"strings"
 )
 
 func Launch(args []string) {
@@ -12,18 +11,17 @@ func Launch(args []string) {
 	} else if len(args) != 1 || args[0] == "--help" {
 		mainHelp()
 	} else {
-		imageName := buildImageName(args[0])
-		docker.Pull(imageName)
-		docker.Run(docker.GetImageId(imageName))
-	}
-}
+		// Pull image
+		image := docker.BuildImageModel(args[0])
+		docker.Pull(image)
 
-// Build a mirror name
-func buildImageName(imageName string) string {
-	if !strings.Contains(imageName, ":") {
-		imageName = imageName + ":latest"
+		// Run container
+		containerId, containerName := docker.Run(image)
+		container := docker.BuildContainerModel(image, containerId, containerName)
+
+		// Render table
+		container.RenderTable()
 	}
-	return imageName
 }
 
 // Output help information

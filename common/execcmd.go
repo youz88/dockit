@@ -5,16 +5,20 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"strings"
 )
 
 // ExecCmd Execute the command and output the standard output and standard errors directly to the console.
 func ExecCmd(name string, args ...string) {
+	var stderrBuf bytes.Buffer
 	cmd := exec.Command(name, args...)
 	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
+	cmd.Stderr = &stderrBuf
 
 	if err := cmd.Run(); err != nil {
-		fmt.Println("Error:", err)
+		errMsg := strings.ReplaceAll(strings.Split(stderrBuf.String(), "\n")[0], "docker", "dockit")
+		fmt.Println(errMsg)
+		os.Exit(1)
 		return
 	}
 }
