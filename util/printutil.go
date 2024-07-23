@@ -5,10 +5,10 @@ import (
 	"strconv"
 )
 
-// Color defines a single SGR Code
+// Color defines a single SGR Code.
 type Color int
 
-// Foreground text colors
+// Foreground text colors.
 const (
 	Black Color = iota + 30
 	Red

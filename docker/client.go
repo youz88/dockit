@@ -5,11 +5,13 @@ import (
 	"strings"
 )
 
+// Pull the mirror image.
 func Pull(image *Image) {
 	common.ExecCmd("docker", "pull", image.FullImageName())
 	image.Id = getImageId(image)
 }
 
+// Run the image in a container.
 func Run(image *Image) (string, string) {
 	containerName := "dockit_" + image.Name + ""
 	common.ExecCmd("docker", "run", "-d", "--name", containerName, image.Id)

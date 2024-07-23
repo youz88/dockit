@@ -8,6 +8,7 @@ type Container struct {
 	Image *Image `json:"image"`
 }
 
+// BuildContainerModel Build a container model.
 func BuildContainerModel(image *Image, containerId string, containerName string) *Container {
 	return &Container{
 		Id:    containerId,
@@ -16,6 +17,7 @@ func BuildContainerModel(image *Image, containerId string, containerName string)
 	}
 }
 
+// RenderTable Render a container table output.
 func (container *Container) RenderTable() {
 	arr := [][]string{
 		{

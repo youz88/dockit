@@ -8,12 +8,12 @@ type Image struct {
 	Version string `json:"version"`
 }
 
-// FullImageName Get the full image name
+// FullImageName Get the full image name.
 func (image *Image) FullImageName() string {
 	return image.Name + ":" + image.Version
 }
 
-// BuildImageModel Build a image model
+// BuildImageModel Build a image model.
 func BuildImageModel(s string) *Image {
 	var image Image
 	if strings.Contains(s, ":") {

@@ -11,10 +11,13 @@ import (
 // ExecCmd Execute the command and output the standard output and standard errors directly to the console.
 func ExecCmd(name string, args ...string) {
 	var stderrBuf bytes.Buffer
+
+	// Create a command.
 	cmd := exec.Command(name, args...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = &stderrBuf
 
+	// Run the command.
 	if err := cmd.Run(); err != nil {
 		errMsg := strings.ReplaceAll(strings.Split(stderrBuf.String(), "\n")[0], "docker", "dockit")
 		fmt.Println(errMsg)
@@ -27,19 +30,19 @@ func ExecCmd(name string, args ...string) {
 func ExecCmdWithOutput(name string, args ...string) string {
 	cmd := exec.Command(name, args...)
 
-	// 获取命令的标准输出
+	// Get the standard output of the command.
 	var stdoutBuf, stderrBuf bytes.Buffer
 	cmd.Stdout = &stdoutBuf
 	cmd.Stderr = &stderrBuf
 
-	// 运行命令
+	// Run the command.
 	err := cmd.Run()
 	if err != nil {
-		// 命令执行失败，打印错误信息（包括标准错误输出）
-		fmt.Println(fmt.Sprint(err) + ": " + stderrBuf.String())
-		return ""
+		errMsg := strings.ReplaceAll(strings.Split(stderrBuf.String(), "\n")[0], "docker", "dockit")
+		fmt.Println(errMsg)
+		os.Exit(2)
 	}
 
-	// 命令执行成功，打印标准输出
+	// The command is executed successfully.
 	return stdoutBuf.String()
 }

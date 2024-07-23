@@ -4,7 +4,7 @@ import "fmt"
 
 const HelpPrintFormat = "  %-20s%-20s\n"
 
-// MainHelp Output help information
+// MainHelp Output help information.
 func MainHelp() {
 	fmt.Println("\nUsage: dockit COMMAND")
 
@@ -15,6 +15,7 @@ func MainHelp() {
 	fmt.Println("\nRun 'dockit COMMAND --help' for more information on a command.")
 }
 
+// RenderTable Render table output.
 func RenderTable(arr [][]string) {
 	if len(arr) == 0 || len(arr[0]) == 0 {
 		return
