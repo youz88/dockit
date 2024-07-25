@@ -1,11 +1,16 @@
-package docker
+package model
 
-import "dockit/common"
+import "dockit/helper"
 
 type Container struct {
 	Id    string `json:"id"`
 	Name  string `json:"name"`
 	Image *Image `json:"image"`
+}
+
+// BuildContainerName Build a container name.
+func BuildContainerName(image *Image) string {
+	return "dockit_" + image.Name
 }
 
 // BuildContainerModel Build a container model.
@@ -26,5 +31,5 @@ func (container *Container) RenderTable() {
 			container.Image.Name, container.Image.Id, container.Name, container.Id,
 		},
 	}
-	common.RenderTable(arr)
+	helper.RenderTable(arr)
 }
