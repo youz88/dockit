@@ -1,5 +1,7 @@
 package custom
 
+import "dockit/constant"
+
 type Nginx struct{}
 
 func (redis *Nginx) Ports() map[string]string {
@@ -11,12 +13,12 @@ func (redis *Nginx) Ports() map[string]string {
 
 func (redis *Nginx) Volumes() map[string]string {
 	return map[string]string{
-		"~/dockit/nginx/conf/nginx.conf":   "/etc/nginx/nginx.conf",
-		"~/dockit/nginx/includ_conf":       "/etc/nginx/includ_conf",
-		"~/dockit/nginx/conf/default.conf": "/etc/nginx/conf.d/default.conf",
-		"~/dockit/nginx/html":              "/usr/share/nginx/html",
-		"~/dockit/nginx/logs":              "/var/log/nginx",
-		"~/dockit/nginx/certs":             "/etc/nginx/certs",
+		constant.Home + "/dockit/nginx/conf/nginx.conf":   "/etc/nginx/nginx.conf",
+		constant.Home + "/dockit/nginx/includ_conf":       "/etc/nginx/includ_conf",
+		constant.Home + "/dockit/nginx/conf/default.conf": "/etc/nginx/conf.d/default.conf",
+		constant.Home + "/dockit/nginx/html":              "/usr/share/nginx/html",
+		constant.Home + "/dockit/nginx/logs":              "/var/log/nginx",
+		constant.Home + "/dockit/nginx/certs":             "/etc/nginx/certs",
 	}
 }
 

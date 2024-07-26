@@ -1,5 +1,7 @@
 package custom
 
+import "dockit/constant"
+
 type Nacos struct{}
 
 func (redis *Nacos) Ports() map[string]string {
@@ -12,8 +14,8 @@ func (redis *Nacos) Ports() map[string]string {
 
 func (redis *Nacos) Volumes() map[string]string {
 	return map[string]string{
-		"~/dockit/nacos/logs":                   "/home/nacos/logs",
-		"~/dockit/nacos/application.properties": "/home/nacos/conf/application.properties",
+		constant.Home + "/dockit/nacos/logs":                   "/home/nacos/logs",
+		constant.Home + "/dockit/nacos/application.properties": "/home/nacos/conf/application.properties",
 	}
 }
 

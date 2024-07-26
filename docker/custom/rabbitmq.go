@@ -1,5 +1,7 @@
 package custom
 
+import "dockit/constant"
+
 type RabbitMQ struct{}
 
 func (redis *RabbitMQ) Ports() map[string]string {
@@ -11,7 +13,7 @@ func (redis *RabbitMQ) Ports() map[string]string {
 
 func (redis *RabbitMQ) Volumes() map[string]string {
 	return map[string]string{
-		"~/dockit/rabbitmq": "/var/lib/rabbitmq",
+		constant.Home + "/dockit/rabbitmq": "/var/lib/rabbitmq",
 	}
 }
 
