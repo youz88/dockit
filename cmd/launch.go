@@ -1,8 +1,7 @@
 package cmd
 
 import (
-	"dockit/docker/cmd"
-	"dockit/docker/model"
+	"dockit/docker"
 	"fmt"
 )
 
@@ -22,12 +21,12 @@ func (launch *Launch) MainHelp() {
 
 func (launch *Launch) CustomExec(args []string) {
 	// Pull image.
-	image := model.BuildImageModel(args[0])
+	image := docker.BuildImageModel(args[0])
 	docker.Pull(image)
 
 	// Run container.
-	containerId, containerName := docker.Run(image, args[1:])
-	container := model.BuildContainerModel(image, containerId, containerName)
+	container := docker.BuildContainerModel(image)
+	docker.Run(container, args[1:])
 
 	// Render table.
 	container.RenderTable()

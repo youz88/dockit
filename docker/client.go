@@ -1,38 +1,39 @@
 package docker
 
 import (
-	docker "dockit/docker/model"
 	"dockit/util"
 	"strings"
 )
 
 // Pull the mirror image.
-func Pull(image *docker.Image) {
+func Pull(image *Image) {
 	util.ExecCmd("docker", "pull", image.FullImageName())
 	image.Id = getImageId(image)
 }
 
 // Run the image in a container.
-func Run(image *docker.Image, options []string) (string, string) {
-	containerName := docker.BuildContainerName(image)
-	args := []string{"run", "-d", "--name", containerName}
+func Run(container *Container, options []string) {
+	args := []string{"run", "-d"}
+	args = append(args, container.GetCustomOptions()...)
 	args = append(args, options...)
-	args = append(args, image.Id)
+	args = append(args, container.Image.Id)
 	util.ExecCmd("docker", args...)
-	return getContainerId(containerName), containerName
+
+	// Set the container ID
+	container.Id = getContainerId(container.Name)
 }
 
 // Rm remove the container.
-func Rm(image *docker.Image) {
-	util.ExecCmd("docker", "rm", "-f", docker.BuildContainerName(image))
+func Rm(image *Image) {
+	util.ExecCmd("docker", "rm", "-f", GetContainerName(image))
 }
 
 // Rmi remove the image.
-func Rmi(image *docker.Image) {
+func Rmi(image *Image) {
 	util.ExecCmd("docker", "rmi", image.FullImageName())
 }
 
-func getImageId(image *docker.Image) string {
+func getImageId(image *Image) string {
 	output := util.ExecCmdWithOutput("docker", "image", "ls", image.FullImageName(), "-q")
 	return strings.TrimSpace(output)
 }

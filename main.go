@@ -6,22 +6,23 @@ import (
 	"os"
 )
 
-var cmdMap = make(map[string]cmd.Command)
-
-func init() {
-	cmdMap["launch"] = &cmd.Launch{}
-	cmdMap["clear"] = &cmd.Clear{}
-}
-
 func main() {
 	args := os.Args[1:]
 
 	// Check if the command is valid.
-	if len(args) == 0 || cmdMap[args[0]] == nil {
+	if len(args) == 0 || cmd.CommandMap[args[0]] == nil {
 		helper.MainHelp()
 		return
 	}
 
-	// Execute the command.
-	cmd.Exec(cmdMap[args[0]], args[1:])
+	// Exec executes the command with the given arguments.
+	command := cmd.CommandMap[args[0]]
+	args = args[1:]
+	if len(args) == 0 {
+		command.MissingParams()
+	} else if args[0] == "--help" {
+		command.MainHelp()
+	} else {
+		command.CustomExec(args)
+	}
 }
