@@ -1,6 +1,10 @@
 package helper
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/olekukonko/tablewriter"
+	"os"
+)
 
 const HelpPrintFormat = "  %-20s%-20s\n"
 
@@ -17,20 +21,14 @@ func MainHelp() {
 
 // RenderTable Render table output.
 func RenderTable(arr [][]string) {
-	if len(arr) == 0 || len(arr[0]) == 0 {
+	if len(arr) == 0 {
 		return
 	}
 
-	columnSize := len(arr[0])
-	for i := range arr {
-		printTableRowSeparator(columnSize)
-
-		for j := range arr[i] {
-			fmt.Printf("|%-20s", arr[i][j])
-		}
-		fmt.Printf("|\n")
-	}
-	printTableRowSeparator(columnSize)
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader(arr[0])
+	table.AppendBulk(arr[1:])
+	table.Render()
 }
 
 func printTableRowSeparator(columnSize int) {

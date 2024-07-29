@@ -3,6 +3,7 @@ package docker
 import (
 	"dockit/docker/custom"
 	"dockit/helper"
+	"strings"
 )
 
 type Container struct {
@@ -45,8 +46,10 @@ func (container *Container) RenderTable() {
 	arr := [][]string{
 		{
 			"image-name", "image-id", "container-name", "container-id",
+			"options",
 		}, {
 			container.Image.Name, container.Image.Id, container.Name, container.Id,
+			strings.Join(container.GetCustomOptions(), " "),
 		},
 	}
 	helper.RenderTable(arr)
