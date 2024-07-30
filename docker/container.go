@@ -3,6 +3,7 @@ package docker
 import (
 	"dockit/docker/custom"
 	"dockit/helper"
+	"fmt"
 	"strings"
 )
 
@@ -48,8 +49,8 @@ func (container *Container) RenderTable() {
 			"image-name", "image-id", "container-name", "container-id",
 			"options",
 		}, {
-			container.Image.Name, container.Image.Id, container.Name, container.Id,
-			strings.Join(container.GetCustomOptions(), " "),
+			container.Image.FullImageName(), container.Image.Id, container.Name, container.Id,
+			container.optionsFormat(),
 		},
 	}
 	helper.RenderTable(arr)
@@ -69,4 +70,18 @@ func buildOptions(prefix string, linkSymbol string, links map[string]string) (op
 		options = append(options, prefix, key+linkSymbol+val)
 	}
 	return options
+}
+
+func (container *Container) optionsFormat() string {
+	var builder strings.Builder
+	for i, option := range container.GetCustomOptions() {
+		if i == 0 {
+			builder.WriteString(fmt.Sprintf("%s ", option))
+		} else if strings.HasPrefix(option, "-") {
+			builder.WriteString(fmt.Sprintf(" \\\n%s ", option))
+		} else {
+			builder.WriteString(option)
+		}
+	}
+	return builder.String()
 }

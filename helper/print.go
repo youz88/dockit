@@ -26,14 +26,9 @@ func RenderTable(arr [][]string) {
 	}
 
 	table := tablewriter.NewWriter(os.Stdout)
+	table.SetReflowDuringAutoWrap(false)
+	table.SetAutoWrapText(false)
 	table.SetHeader(arr[0])
 	table.AppendBulk(arr[1:])
 	table.Render()
-}
-
-func printTableRowSeparator(columnSize int) {
-	for i := 0; i < columnSize; i++ {
-		fmt.Printf("+--------------------")
-	}
-	fmt.Printf("+\n")
 }
