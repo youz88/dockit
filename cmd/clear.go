@@ -2,23 +2,23 @@ package cmd
 
 import (
 	"dockit/docker"
-	"fmt"
+	"dockit/model"
+	"github.com/spf13/cobra"
 )
 
-type Clear struct{}
-
-func (clear *Clear) MissingParams() {
-	fmt.Println("dockit clear requires exactly 1 argument.")
-	fmt.Println("See 'dockit clear --help'.")
+var clearCmd = &cobra.Command{
+	Use:   "clear NAME[:TAG|@DIGEST]",
+	Short: "Remove the docker image and container",
+	Run:   clearHandler,
+	Args:  cobra.MinimumNArgs(1),
 }
 
-func (clear *Clear) MainHelp() {
-	fmt.Println("\nUsage: dockit clear NAME[:TAG|@DIGEST]")
-	fmt.Println("\nRemove the docker image and container")
+func init() {
+	rootCmd.AddCommand(clearCmd)
 }
 
-func (clear *Clear) CustomExec(args []string) {
-	image := docker.BuildImageModel(args[0])
+func clearHandler(cmd *cobra.Command, args []string) {
+	image := model.BuildImageModel(args[0])
 	docker.Rm(image)
 	docker.Rmi(image)
 }

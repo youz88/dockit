@@ -1,9 +1,10 @@
-package docker
+package model
 
 import (
 	"dockit/docker/custom"
-	"dockit/helper"
 	"fmt"
+	"github.com/olekukonko/tablewriter"
+	"os"
 	"strings"
 )
 
@@ -41,8 +42,8 @@ func (container *Container) GetCustomOptions() (options []string) {
 	return options
 }
 
-// RenderTable Render a container table output.
-func (container *Container) RenderTable() {
+// Render a container table output.
+func (container *Container) Render() {
 	arr := [][]string{
 		{
 			"image-name", "image-id", "container-name", "container-id",
@@ -52,7 +53,14 @@ func (container *Container) RenderTable() {
 			container.optionsFormat(),
 		},
 	}
-	helper.RenderTable(arr)
+
+	// Render container table.
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetReflowDuringAutoWrap(false)
+	table.SetAutoWrapText(false)
+	table.SetHeader(arr[0])
+	table.AppendBulk(arr[1:])
+	table.Render()
 }
 
 // GetContainerName Get container name.
