@@ -17,12 +17,11 @@ type Container struct {
 // BuildContainerModel Build a container model.
 func BuildContainerModel(image *Image) *Container {
 	options := custom.ImageMap[image.Name]
-	container := &Container{
+	return &Container{
 		Name:    GetContainerName(image),
 		Image:   image,
 		Options: options,
 	}
-	return container
 }
 
 // GetCustomOptions Get custom options.
