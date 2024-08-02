@@ -1,45 +1,29 @@
 package model
 
 import (
-	"dockit/docker/custom"
-	"fmt"
 	"github.com/olekukonko/tablewriter"
 	"os"
-	"strings"
 )
 
 type Container struct {
-	Id      string         `json:"id"`
-	Name    string         `json:"name"`
-	Image   *Image         `json:"image"`
-	Options custom.Options `json:"options"`
+	Id     string
+	Name   string
+	Image  *Image
+	Option *Option
 }
 
-// BuildContainerModel Build a container model.
-func BuildContainerModel(image *Image) *Container {
-	options := custom.ImageMap[image.Name]
+// NewContainer Build a container model.
+func NewContainer(image *Image) *Container {
 	return &Container{
-		Name:    GetContainerName(image),
-		Image:   image,
-		Options: options,
+		Name:   GetContainerName(image),
+		Image:  image,
+		Option: GetImageOption(image),
 	}
 }
 
-// GetCustomOptions Get custom options.
-func (container *Container) GetCustomOptions() (options []string) {
-	options = []string{
-		"--name", GetContainerName(container.Image),
-		"--restart=always",
-	}
-	if container.Options == nil {
-		return options
-	}
-
-	options = append(options, buildOptions("-p", ":", container.Options.Ports())...)
-	options = append(options, buildOptions("-v", ":", container.Options.Volumes())...)
-	options = append(options, buildOptions("-e", "=", container.Options.Environments())...)
-	options = append(options, container.Options.Others()...)
-	return options
+// GetContainerName Get container name.
+func GetContainerName(image *Image) string {
+	return "dockit_" + image.Name
 }
 
 // Render a container table output.
@@ -50,7 +34,7 @@ func (container *Container) Render() {
 			"options",
 		}, {
 			container.Image.FullImageName(), container.Image.Id, container.Name, container.Id,
-			container.optionsFormat(),
+			container.Option.FormatStr(container),
 		},
 	}
 
@@ -61,34 +45,4 @@ func (container *Container) Render() {
 	table.SetHeader(arr[0])
 	table.AppendBulk(arr[1:])
 	table.Render()
-}
-
-// GetContainerName Get container name.
-func GetContainerName(image *Image) string {
-	return "dockit_" + image.Name
-}
-
-func buildOptions(prefix string, linkSymbol string, links map[string]string) (options []string) {
-	if len(links) == 0 {
-		return options
-	}
-
-	for key, val := range links {
-		options = append(options, prefix, key+linkSymbol+val)
-	}
-	return options
-}
-
-func (container *Container) optionsFormat() string {
-	var builder strings.Builder
-	for i, option := range container.GetCustomOptions() {
-		if i == 0 {
-			builder.WriteString(fmt.Sprintf("%s ", option))
-		} else if strings.HasPrefix(option, "-") {
-			builder.WriteString(fmt.Sprintf(" \\\n%s ", option))
-		} else {
-			builder.WriteString(option)
-		}
-	}
-	return builder.String()
 }

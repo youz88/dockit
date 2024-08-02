@@ -20,11 +20,11 @@ func init() {
 
 func launchHandler(cmd *cobra.Command, args []string) {
 	// Pull image.
-	image := model.BuildImageModel(args[0])
+	image := model.NewImage(args[0])
 	docker.Pull(image)
 
 	// Run container.
-	container := model.BuildContainerModel(image)
+	container := model.NewContainer(image)
 	docker.Run(container, args[1:])
 
 	// Render table.

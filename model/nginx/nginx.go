@@ -1,17 +1,24 @@
-package custom
+package nginx
 
-import "dockit/constant"
+import (
+	"dockit/constant"
+	"dockit/model"
+)
+
+func init() {
+	model.Register("nginx", &Nginx{})
+}
 
 type Nginx struct{}
 
-func (redis *Nginx) Ports() map[string]string {
+func (opt *Nginx) Ports() map[string]string {
 	return map[string]string{
 		"80":  "80",
 		"443": "443",
 	}
 }
 
-func (redis *Nginx) Volumes() map[string]string {
+func (opt *Nginx) Volumes() map[string]string {
 	return map[string]string{
 		constant.Home + "/dockit/nginx/conf/nginx.conf":   "/etc/nginx/nginx.conf",
 		constant.Home + "/dockit/nginx/includ_conf":       "/etc/nginx/includ_conf",
@@ -22,12 +29,12 @@ func (redis *Nginx) Volumes() map[string]string {
 	}
 }
 
-func (redis *Nginx) Environments() map[string]string {
+func (opt *Nginx) Environments() map[string]string {
 	return nil
 }
 
-func (redis *Nginx) Others() []string {
+func (opt *Nginx) Others() []string {
 	return []string{
-		"--privileged=true",
+		"--privileged",
 	}
 }

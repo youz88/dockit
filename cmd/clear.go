@@ -19,7 +19,7 @@ func init() {
 }
 
 func clearHandler(cmd *cobra.Command, args []string) {
-	image := model.BuildImageModel(args[0])
+	image := model.NewImage(args[0])
 	docker.Rm(image)
 	docker.Rmi(image)
 }
