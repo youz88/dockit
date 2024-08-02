@@ -7,10 +7,11 @@ import (
 )
 
 var launchCmd = &cobra.Command{
-	Use:   "launch NAME[:TAG|@DIGEST]",
-	Short: "Pull the docker image and start the container",
-	Run:   launchHandler,
-	Args:  cobra.MinimumNArgs(1),
+	Use:                   "launch NAME[:TAG|@DIGEST]",
+	Short:                 "Pull the docker image and start the container",
+	DisableFlagsInUseLine: true,
+	Run:                   launchHandler,
+	Args:                  cobra.MinimumNArgs(1),
 }
 
 func init() {

@@ -7,10 +7,11 @@ import (
 )
 
 var clearCmd = &cobra.Command{
-	Use:   "clear NAME[:TAG|@DIGEST]",
-	Short: "Remove the docker image and container",
-	Run:   clearHandler,
-	Args:  cobra.MinimumNArgs(1),
+	Use:                   "clear NAME[:TAG|@DIGEST]",
+	Short:                 "Remove the docker image and container",
+	DisableFlagsInUseLine: true,
+	Run:                   clearHandler,
+	Args:                  cobra.MinimumNArgs(1),
 }
 
 func init() {
