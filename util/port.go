@@ -26,8 +26,7 @@ func getRangeUnusedPort(startPort, endPort int) int {
 		addr := fmt.Sprintf(":%d", port)
 		listen, err := net.Listen("tcp", addr)
 		if err == nil {
-			// 端口未被占用，关闭监听并返回端口号
-			listen.Close()
+			_ = listen.Close()
 			return port
 		}
 	}

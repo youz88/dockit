@@ -18,13 +18,12 @@ func init() {
 	rootCmd.AddCommand(launchCmd)
 }
 
-func launchHandler(cmd *cobra.Command, args []string) {
+func launchHandler(_ *cobra.Command, args []string) {
 	// Pull image.
 	image := model.NewImage(args[0])
 	docker.Pull(image)
 
 	// Run container.
-
 	container := model.NewContainer(image, docker.ImageOptMap[image.Name])
 	docker.Run(container, args[1:])
 

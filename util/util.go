@@ -25,6 +25,5 @@ func CompareVersion(v1, v2 string) int {
 			return 1
 		}
 	}
-
 	return 0
 }

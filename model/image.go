@@ -13,7 +13,7 @@ func (image *Image) FullImageName() string {
 	return image.Name + ":" + image.Version
 }
 
-// NewImage Build a image model.
+// NewImage Build an image model.
 func NewImage(s string) *Image {
 	var image Image
 	if strings.Contains(s, ":") {
