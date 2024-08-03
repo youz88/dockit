@@ -14,17 +14,8 @@ type Option struct {
 	Others       []string
 }
 
-var ImageOptMap = make(map[string][]*Option)
-
-// Register a custom mirror.
-func Register(image string, option *Option) {
-	options := ImageOptMap[image]
-	options = append(options, option)
-}
-
 // GetImageOption get option by image.
-func GetImageOption(image *Image) *Option {
-	options := ImageOptMap[image.Name]
+func GetImageOption(image *Image, options []*Option) *Option {
 	if len(options) == 0 {
 		return nil
 	} else if len(options) == 1 {

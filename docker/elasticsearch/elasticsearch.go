@@ -2,10 +2,23 @@ package elasticsearch
 
 import (
 	"dockit/constant"
+	"dockit/docker"
+	"dockit/model"
 	"dockit/util"
 )
 
-func Ports() map[string]string {
+var defaultOption = &model.Option{
+	Ports:        defaultPorts(),
+	Volumes:      defaultVolumes(),
+	Environments: defaultEnvironments(),
+	Others:       defaultOthers(),
+}
+
+func init() {
+	docker.Register("elasticsearch", defaultOption)
+}
+
+func defaultPorts() map[string]string {
 	ports := util.GenPort(2)
 	return map[string]string{
 		ports[0]: "9200",
@@ -13,23 +26,21 @@ func Ports() map[string]string {
 	}
 }
 
-func Volumes() map[string]string {
+func defaultVolumes() map[string]string {
 	return map[string]string{
-		constant.Home + "/dockit/elasticsearch/config":  "/usr/share/elasticsearch/config",
-		constant.Home + "/dockit/elasticsearch/logs":    "/usr/share/elasticsearch/logs",
 		constant.Home + "/dockit/elasticsearch/plugins": "/usr/share/elasticsearch/plugins",
 		constant.Home + "/dockit/elasticsearch/data":    "/usr/share/elasticsearch/data",
 	}
 }
 
-func Environments() map[string]string {
+func defaultEnvironments() map[string]string {
 	return map[string]string{
 		"discovery.type": "single-node",
 		"ES_JAVA_OPTS":   "-Xms512m -Xmx512m",
 	}
 }
 
-func Others() []string {
+func defaultOthers() []string {
 	return []string{
 		"--privileged",
 	}

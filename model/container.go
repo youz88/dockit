@@ -13,11 +13,11 @@ type Container struct {
 }
 
 // NewContainer Build a container model.
-func NewContainer(image *Image) *Container {
+func NewContainer(image *Image, options []*Option) *Container {
 	return &Container{
 		Name:   GetContainerName(image),
 		Image:  image,
-		Option: GetImageOption(image),
+		Option: GetImageOption(image, options),
 	}
 }
 

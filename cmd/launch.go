@@ -24,7 +24,8 @@ func launchHandler(cmd *cobra.Command, args []string) {
 	docker.Pull(image)
 
 	// Run container.
-	container := model.NewContainer(image)
+
+	container := model.NewContainer(image, docker.ImageOptMap[image.Name])
 	docker.Run(container, args[1:])
 
 	// Render table.

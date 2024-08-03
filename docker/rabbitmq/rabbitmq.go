@@ -2,17 +2,22 @@ package rabbitmq
 
 import (
 	"dockit/constant"
+	"dockit/docker"
 	"dockit/model"
 	"dockit/util"
 )
 
-func init() {
-	model.Register("rabbitmq", &RabbitMQ{})
+var defaultOption = &model.Option{
+	Ports:        defaultPorts(),
+	Volumes:      defaultVolumes(),
+	Environments: defaultEnvironments(),
 }
 
-type RabbitMQ struct{}
+func init() {
+	docker.Register("rabbitmq", defaultOption)
+}
 
-func (opt *RabbitMQ) Ports() map[string]string {
+func defaultPorts() map[string]string {
 	ports := util.GenPort(2)
 	return map[string]string{
 		ports[0]: "5682",
@@ -20,19 +25,15 @@ func (opt *RabbitMQ) Ports() map[string]string {
 	}
 }
 
-func (opt *RabbitMQ) Volumes() map[string]string {
+func defaultVolumes() map[string]string {
 	return map[string]string{
 		constant.Home + "/dockit/rabbitmq": "/var/lib/rabbitmq",
 	}
 }
 
-func (opt *RabbitMQ) Environments() map[string]string {
+func defaultEnvironments() map[string]string {
 	return map[string]string{
 		"RABBITMQ_DEFAULT_USER": "admin",
 		"RABBITMQ_DEFAULT_PASS": "admin",
 	}
-}
-
-func (opt *RabbitMQ) Others() []string {
-	return nil
 }
