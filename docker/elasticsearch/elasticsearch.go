@@ -12,6 +12,7 @@ var defaultOption = &model.Option{
 	Volumes:      defaultVolumes(),
 	Environments: defaultEnvironments(),
 	Others:       defaultOthers(),
+	Auth:         0775,
 }
 
 func init() {
@@ -28,6 +29,7 @@ func defaultPorts() map[string]string {
 
 func defaultVolumes() map[string]string {
 	return map[string]string{
+		constant.Home + "/dockit/elasticsearch/logs":    "/usr/share/elasticsearch/logs",
 		constant.Home + "/dockit/elasticsearch/plugins": "/usr/share/elasticsearch/plugins",
 		constant.Home + "/dockit/elasticsearch/data":    "/usr/share/elasticsearch/data",
 	}

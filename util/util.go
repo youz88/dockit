@@ -1,6 +1,10 @@
 package util
 
 import (
+	"fmt"
+	"io/fs"
+	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 )
@@ -26,4 +30,29 @@ func CompareVersion(v1, v2 string) int {
 		}
 	}
 	return 0
+}
+
+func Mkdir(path string, auth fs.FileMode) error {
+	if len(path) == 0 {
+		return fmt.Errorf("file path is empty")
+	}
+
+	// Determine whether the path type is a folder.
+	splitPath := strings.Split(path, "/")
+	if !strings.Contains(splitPath[len(splitPath)-1], ".") {
+		path = path + "/"
+	}
+
+	// Create a folder.
+	dir := filepath.Dir(path)
+	err := os.MkdirAll(dir, 0755)
+
+	// Modify permissions.
+	if auth != 0 {
+		_ = os.Chmod(dir, auth)
+	}
+	if err != nil {
+		return fmt.Errorf("failed to create directory: %w", err)
+	}
+	return nil
 }

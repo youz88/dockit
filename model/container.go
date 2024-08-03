@@ -26,6 +26,11 @@ func GetContainerName(image *Image) string {
 	return "dockit_" + image.Name
 }
 
+// DefaultRunArgs Get docker run default args.
+func (container *Container) DefaultRunArgs() []string {
+	return []string{"run", "-d", "--name", container.Name}
+}
+
 // Render a container table output.
 func (container *Container) Render() {
 	arr := [][]string{
@@ -34,7 +39,7 @@ func (container *Container) Render() {
 			"options",
 		}, {
 			container.Image.FullImageName(), container.Image.Id, container.Name, container.Id,
-			container.Option.FormatStr(container),
+			container.Option.FormatStr(),
 		},
 	}
 

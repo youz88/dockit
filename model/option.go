@@ -3,6 +3,7 @@ package model
 import (
 	"dockit/util"
 	"fmt"
+	"io/fs"
 	"strings"
 )
 
@@ -12,6 +13,7 @@ type Option struct {
 	Volumes      map[string]string
 	Environments map[string]string
 	Others       []string
+	Auth         fs.FileMode
 }
 
 // GetImageOption get option by image.
@@ -31,9 +33,8 @@ func GetImageOption(image *Image, options []*Option) *Option {
 }
 
 // GenerateCustomOptions generates custom options based on the provided container and optional options.
-func (opt *Option) GenerateCustomOptions(container *Container) (options []string) {
+func (opt *Option) GenerateCustomOptions() (options []string) {
 	options = []string{
-		"--name", GetContainerName(container.Image),
 		"--restart=always",
 	}
 	if opt == nil {
@@ -48,9 +49,9 @@ func (opt *Option) GenerateCustomOptions(container *Container) (options []string
 }
 
 // FormatStr formats the custom options to a string.
-func (opt *Option) FormatStr(container *Container) string {
+func (opt *Option) FormatStr() string {
 	var builder strings.Builder
-	for i, option := range opt.GenerateCustomOptions(container) {
+	for i, option := range opt.GenerateCustomOptions() {
 		if i == 0 {
 			builder.WriteString(fmt.Sprintf("%s ", option))
 		} else if strings.HasPrefix(option, "-") {
@@ -60,6 +61,16 @@ func (opt *Option) FormatStr(container *Container) string {
 		}
 	}
 	return builder.String()
+}
+
+// MkdirForVolumes creates directories for volumes.
+func (opt *Option) MkdirForVolumes() {
+	if len(opt.Volumes) == 0 {
+		return
+	}
+	for k := range opt.Volumes {
+		_ = util.Mkdir(k, opt.Auth)
+	}
 }
 
 func buildOptions(prefix string, linkSymbol string, links map[string]string) (options []string) {
