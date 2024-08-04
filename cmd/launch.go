@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"dockit/config/option"
 	"dockit/docker"
 	"dockit/model"
 	"github.com/spf13/cobra"
@@ -24,7 +25,7 @@ func launchHandler(_ *cobra.Command, args []string) {
 	docker.Pull(image)
 
 	// Run container.
-	container := model.NewContainer(image, docker.ImageOptMap[image.Name])
+	container := model.NewContainer(image, option.GetContainerOption(image))
 	docker.Run(container, args[1:])
 
 	// Render table.

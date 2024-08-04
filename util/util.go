@@ -1,6 +1,7 @@
 package util
 
 import (
+	"dockit/constant"
 	"fmt"
 	"io/fs"
 	"os"
@@ -32,7 +33,7 @@ func CompareVersion(v1, v2 string) int {
 	return 0
 }
 
-func Mkdir(path string, auth fs.FileMode) error {
+func Mkdir(path string, perm fs.FileMode) error {
 	if len(path) == 0 {
 		return fmt.Errorf("file path is empty")
 	}
@@ -45,11 +46,11 @@ func Mkdir(path string, auth fs.FileMode) error {
 
 	// Create a folder.
 	dir := filepath.Dir(path)
-	err := os.MkdirAll(dir, 0755)
+	err := os.MkdirAll(dir, constant.DefaultFilePerm)
 
 	// Modify permissions.
-	if auth != 0 {
-		_ = os.Chmod(dir, auth)
+	if perm != constant.DefaultFilePerm {
+		_ = os.Chmod(dir, perm)
 	}
 	if err != nil {
 		return fmt.Errorf("failed to create directory: %w", err)

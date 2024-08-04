@@ -1,25 +1,20 @@
-package elasticsearch
+package option
 
 import (
 	"dockit/constant"
-	"dockit/docker"
-	"dockit/model"
 	"dockit/util"
+	"io/fs"
 )
 
-var defaultOption = &model.Option{
-	Ports:        defaultPorts(),
-	Volumes:      defaultVolumes(),
-	Environments: defaultEnvironments(),
-	Others:       defaultOthers(),
-	Auth:         0775,
-}
-
 func init() {
-	docker.Register("elasticsearch", defaultOption)
+	Register("elasticsearch", Elasticsearch{})
 }
 
-func defaultPorts() map[string]string {
+type Elasticsearch struct {
+	DefaultOpt
+}
+
+func (es Elasticsearch) Ports() map[string]string {
 	ports := util.GenPort(2)
 	return map[string]string{
 		ports[0]: "9200",
@@ -27,7 +22,7 @@ func defaultPorts() map[string]string {
 	}
 }
 
-func defaultVolumes() map[string]string {
+func (es Elasticsearch) Volumes() map[string]string {
 	return map[string]string{
 		constant.Home + "/dockit/elasticsearch/logs":    "/usr/share/elasticsearch/logs",
 		constant.Home + "/dockit/elasticsearch/plugins": "/usr/share/elasticsearch/plugins",
@@ -35,14 +30,18 @@ func defaultVolumes() map[string]string {
 	}
 }
 
-func defaultEnvironments() map[string]string {
+func (es Elasticsearch) VolumesPerm() fs.FileMode {
+	return 0775
+}
+
+func (es Elasticsearch) Environments() map[string]string {
 	return map[string]string{
 		"discovery.type": "single-node",
 		"ES_JAVA_OPTS":   "-Xms512m -Xmx512m",
 	}
 }
 
-func defaultOthers() []string {
+func (es Elasticsearch) Others() []string {
 	return []string{
 		"--privileged",
 	}

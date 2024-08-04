@@ -1,30 +1,25 @@
-package nginx
+package option
 
 import (
 	"dockit/constant"
-	"dockit/docker"
-	"dockit/model"
 )
 
-var defaultOption = &model.Option{
-	Ports:        defaultPorts(),
-	Volumes:      defaultVolumes(),
-	Environments: defaultEnvironments(),
-	Others:       defaultOthers(),
-}
-
 func init() {
-	docker.Register("nginx", defaultOption)
+	Register("nginx", Nginx{})
 }
 
-func defaultPorts() map[string]string {
+type Nginx struct {
+	DefaultOpt
+}
+
+func (nginx Nginx) Ports() map[string]string {
 	return map[string]string{
 		"80":  "80",
 		"443": "443",
 	}
 }
 
-func defaultVolumes() map[string]string {
+func (nginx Nginx) Volumes() map[string]string {
 	return map[string]string{
 		constant.Home + "/dockit/nginx/conf/nginx.conf":   "/etc/nginx/nginx.conf",
 		constant.Home + "/dockit/nginx/includ_conf":       "/etc/nginx/includ_conf",
@@ -35,11 +30,7 @@ func defaultVolumes() map[string]string {
 	}
 }
 
-func defaultEnvironments() map[string]string {
-	return nil
-}
-
-func defaultOthers() []string {
+func (nginx Nginx) Others() []string {
 	return []string{
 		"--privileged",
 	}

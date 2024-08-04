@@ -14,9 +14,6 @@ func Pull(image *model.Image) {
 
 // Run the image in a container.
 func Run(container *model.Container, options []string) {
-	// Mkdir the volumes dir
-	container.Option.MkdirForVolumes()
-
 	// Generate the run args
 	args := container.DefaultRunArgs()
 	args = append(args, container.Option.GenerateCustomOptions()...)

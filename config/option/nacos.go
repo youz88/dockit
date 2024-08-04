@@ -1,24 +1,19 @@
-package nacos
+package option
 
 import (
 	"dockit/constant"
-	"dockit/docker"
-	"dockit/model"
 	"dockit/util"
 )
 
-var defaultOption = &model.Option{
-	Ports:        defaultPorts(),
-	Volumes:      defaultVolumes(),
-	Environments: defaultEnvironments(),
-	Others:       defaultOthers(),
-}
-
 func init() {
-	docker.Register("nacos", defaultOption)
+	Register("nacos", Nacos{})
 }
 
-func defaultPorts() map[string]string {
+type Nacos struct {
+	DefaultOpt
+}
+
+func (nacos Nacos) Ports() map[string]string {
 	ports := util.GenPort(3)
 	return map[string]string{
 		ports[0]: "8848",
@@ -27,21 +22,21 @@ func defaultPorts() map[string]string {
 	}
 }
 
-func defaultVolumes() map[string]string {
+func (nacos Nacos) Volumes() map[string]string {
 	return map[string]string{
 		constant.Home + "/dockit/nacos/logs":                   "/home/nacos/logs",
 		constant.Home + "/dockit/nacos/application.properties": "/home/nacos/conf/application.properties",
 	}
 }
 
-func defaultEnvironments() map[string]string {
+func (nacos Nacos) Environments() map[string]string {
 	return map[string]string{
 		"MODE":             "standalone",
 		"PREFER_HOST_MODE": "hostname",
 	}
 }
 
-func defaultOthers() []string {
+func (nacos Nacos) Others() []string {
 	return []string{
 		"--privileged",
 	}
