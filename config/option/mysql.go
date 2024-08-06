@@ -14,9 +14,8 @@ type Mysql struct {
 }
 
 func (mysql Mysql) Ports() map[string]string {
-	ports := util.GenPort(1)
 	return map[string]string{
-		ports[0]: "3306",
+		util.GenPort(): "3306",
 	}
 }
 

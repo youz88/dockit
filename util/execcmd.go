@@ -2,7 +2,7 @@ package util
 
 import (
 	"bytes"
-	"fmt"
+	"dockit/config/exception"
 	"os"
 	"os/exec"
 	"strings"
@@ -20,8 +20,7 @@ func ExecCmd(name string, args ...string) {
 	// Run the command.
 	if err := cmd.Run(); err != nil {
 		errMsg := strings.ReplaceAll(strings.Split(stderrBuf.String(), "\n")[0], "docker", "dockit")
-		fmt.Println(errMsg)
-		os.Exit(1)
+		exception.CustomError(errMsg)
 		return
 	}
 }
@@ -39,8 +38,7 @@ func ExecCmdWithOutput(name string, args ...string) string {
 	err := cmd.Run()
 	if err != nil {
 		errMsg := strings.ReplaceAll(strings.Split(stderrBuf.String(), "\n")[0], "docker", "dockit")
-		fmt.Println(errMsg)
-		os.Exit(2)
+		exception.CustomError(errMsg)
 	}
 
 	// The command is executed successfully.

@@ -9,8 +9,8 @@ import (
 	"time"
 )
 
-// GenPort Get the random port number.
-func GenPort(count int) []string {
+// GenPorts Get the random port number.
+func GenPorts(count int) []string {
 	if count < 1 {
 		return nil
 	}
@@ -31,6 +31,11 @@ func GenPort(count int) []string {
 	}
 	wg.Wait()
 	return ports
+}
+
+// GenPort Get the random port number.
+func GenPort() string {
+	return GenPorts(1)[0]
 }
 
 // getRangeUnusedPort Get the random unoccupied port number in the specified interval.
