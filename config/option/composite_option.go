@@ -14,7 +14,7 @@ func Register(image string, options ...OptStrategy) {
 
 // GetContainerOption Get the option by image name and version.
 func GetContainerOption(image *model.Image) *model.Option {
-	optStrategies := imageOptMap[image.Name]
+	optStrategies := imageOptMap[image.BaseName]
 
 	if len(optStrategies) == 0 {
 		return nil
