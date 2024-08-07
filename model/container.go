@@ -23,7 +23,7 @@ func NewContainer(image *Image, option *Option) *Container {
 
 // GetContainerName Get container name.
 func GetContainerName(image *Image) string {
-	return "dockit_" + image.Name
+	return "dockit_" + image.BaseName
 }
 
 // DefaultRunArgs Get docker run default args.

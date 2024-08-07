@@ -15,7 +15,7 @@ type Elasticsearch struct {
 }
 
 func (es Elasticsearch) Ports() map[string]string {
-	ports := util.GenPort(2)
+	ports := util.GenPorts(2)
 	return map[string]string{
 		ports[0]: "9200",
 		ports[1]: "9300",

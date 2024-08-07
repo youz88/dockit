@@ -14,9 +14,8 @@ type Redis struct {
 }
 
 func (redis Redis) Ports() map[string]string {
-	ports := util.GenPort(1)
 	return map[string]string{
-		ports[0]: "6379",
+		util.GenPort(): "6379",
 	}
 }
 

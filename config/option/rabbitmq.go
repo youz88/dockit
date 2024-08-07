@@ -14,7 +14,7 @@ type Rabbitmq struct {
 }
 
 func (rabbitmq Rabbitmq) Ports() map[string]string {
-	ports := util.GenPort(2)
+	ports := util.GenPorts(2)
 	return map[string]string{
 		ports[0]: "5682",
 		ports[1]: "15672",

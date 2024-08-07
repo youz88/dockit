@@ -3,9 +3,10 @@ package model
 import "strings"
 
 type Image struct {
-	Id      string
-	Name    string
-	Version string
+	Id       string
+	Name     string
+	BaseName string // Remove the prefix with the "/" symbol
+	Version  string
 }
 
 // FullImageName Get the full image name.
@@ -24,5 +25,8 @@ func NewImage(s string) *Image {
 		image.Version = "latest"
 		image.Name = s
 	}
+
+	imageNameSplit := strings.Split(image.Name, "/")
+	image.BaseName = imageNameSplit[len(imageNameSplit)-1]
 	return &image
 }

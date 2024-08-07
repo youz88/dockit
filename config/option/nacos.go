@@ -14,7 +14,7 @@ type Nacos struct {
 }
 
 func (nacos Nacos) Ports() map[string]string {
-	ports := util.GenPort(3)
+	ports := util.GenPorts(3)
 	return map[string]string{
 		ports[0]: "8848",
 		ports[1]: "9848",
