@@ -24,6 +24,5 @@ func (zk Zookeeper) Ports() map[string]string {
 func (zk Zookeeper) Volumes() map[string]string {
 	return map[string]string{
 		constant.Home + "/dockit/zookeeper/data": "/data",
-		constant.Home + "/dockit/zookeeper/logs": "/datalog",
 	}
 }

@@ -24,7 +24,6 @@ func (es Elasticsearch) Ports() map[string]string {
 
 func (es Elasticsearch) Volumes() map[string]string {
 	return map[string]string{
-		constant.Home + "/dockit/elasticsearch/logs":    "/usr/share/elasticsearch/logs",
 		constant.Home + "/dockit/elasticsearch/plugins": "/usr/share/elasticsearch/plugins",
 		constant.Home + "/dockit/elasticsearch/data":    "/usr/share/elasticsearch/data",
 	}

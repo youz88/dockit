@@ -24,7 +24,6 @@ func (nacos Nacos) Ports() map[string]string {
 
 func (nacos Nacos) Volumes() map[string]string {
 	return map[string]string{
-		constant.Home + "/dockit/nacos/logs":                   "/home/nacos/logs",
 		constant.Home + "/dockit/nacos/application.properties": "/home/nacos/conf/application.properties",
 	}
 }

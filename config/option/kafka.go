@@ -25,7 +25,6 @@ func (kafka Kafka) Ports() map[string]string {
 func (kafka Kafka) Volumes() map[string]string {
 	return map[string]string{
 		constant.Home + "/dockit/kafka/data": "/var/lib/kafka/data",
-		constant.Home + "/dockit/kafka/logs": "/var/log/kafka",
 	}
 }
 
